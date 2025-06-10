@@ -29,13 +29,13 @@ while not game_ower:
         if event.type == pg.QUIT:
             game_ower = True
         if event.type == pg.KEYDOWN:
-            if event.key == pg.K_LEFT:
+            if event.key == pg.K_LEFT and direction != 'right':
                 direction = 'left'
-            if event.key == pg.K_RIGHT:
+            if event.key == pg.K_RIGHT and direction != 'left':
                 direction = 'right'
-            if event.key == pg.K_UP:
+            if event.key == pg.K_UP and direction != 'down':
                 direction = 'up'
-            if event.key == pg.K_DOWN:
+            if event.key == pg.K_DOWN and direction != 'up':
                 direction = 'down'
     if direction == "left":
         x -= 40
@@ -56,6 +56,22 @@ while not game_ower:
         while [apple_x, apple_y] in snake:
              apple_x = randint(1, 19) * 40
              apple_y = randint(1, 11) * 40
+            
+    if x < 0 or x >= 800 or y >= 480 or y < 0:
+        game_ower = True
+        mess = font.render('Ты проиграл', True, RED)
+        disp.blit(mess, [300, 0])
+        pg.display.update()
+        pg.time.delay(2000)
+        break
+      
+    if len(snake) > 4 and snake[-1] in snake[:-1]:
+       game_ower = True
+       mess = font.render('Ты проиграл', True, RED)
+       disp.blit(mess, [300, 240])
+       pg.display.update()
+       pg.time.delay(2000)
+       break
 
     disp.fill(BLACK)
     for i in range(len(snake)):
